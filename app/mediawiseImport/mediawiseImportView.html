@@ -1,0 +1,133 @@
+﻿<style>
+    div.panel {
+        position: relative;
+    }
+
+    div.panel-body {
+        height: 80vh;
+        overflow: auto;
+    }
+
+    div.container {
+        padding-top: 15px;
+        margin-bottom: 5px;
+    }
+    
+    div.form-horizontal > div.row {
+        margin-top: 5px;
+        margin-left: 5px;
+    }
+
+    .labelx {
+        font-weight: bold;
+    }
+
+</style>
+
+<div class="panel panel-primary" ng-controller="mediawiseImportController">
+    <div class="panel-heading">Mediawise import file reader</div>
+
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-sm-2">
+                <button class="btn btn-sm btn-warning" ngf-accept="'.mwi'" ngf-select="fileSelected($file)">Select mediawise import file</button>
+            </div>
+
+            <div class="form-group form-group-sm col-sm-3">
+                <label for="signal" class="col-sm-3  control-label">Signal</label>
+
+                <div class="col-sm-9">
+                    <select id="signal" type="text" class="form-control" ng-model="selectedSignal" ng-change="signalChanged()">
+                        <option ng-repeat="signal in broadcastSignals" value="{{signal.mediawiseCode}}">{{signal.shortDescription}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group form-group-sm col-sm-3">
+                <label for="wcDate" class="col-sm-4 control-label">w/c date</label>
+
+                <div class="col-sm-8">
+                    <select id="wcDate" type="text" class="form-control" ng-model="selectedDate" ng-change="dateChanged()">
+                        <option ng-repeat="date in dateList" value="{{date}}" class="text-right">{{date | date:'d-M-yyyy'}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <label class="control-label">File:</label>
+                    <span>{{fileName}}</span>
+                </div>
+                <div class="col-sm-6">
+                    <span class="labelx">Timestamp:</span>
+                    <span>{{timeStamp}}</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-2">
+                    <span class="labelx">Campaign:</span>
+                    <span>{{mediawiseContent.BmdScheduleExport.Schedule._CampaignId}}</span>
+                </div>
+                <div class="col-sm-3">
+                    <span class="labelx">Client:</span>
+                    <span>{{mediawiseContent.BmdScheduleExport.Schedule._cliCode}} </span>
+                    <span>{{mediawiseContent.BmdScheduleExport.Schedule._cliDesc}}</span>
+                </div>
+                <div class="col-sm-3">
+                    <span class="labelx">Product:</span>
+                    <span>{{mediawiseContent.BmdScheduleExport.Schedule._proCode}} </span>
+                    <span>{{mediawiseContent.BmdScheduleExport.Schedule._proDesc}}</span>
+                </div>
+                <div class="col-sm-3">
+                    <span class="labelx">Date range:</span>
+                    <span>{{mediawiseContent.BmdScheduleExport.Schedule._fromExpDate | tvDate}}</span>
+                    <span class="labelx"> to </span>
+                    <span>{{mediawiseContent.BmdScheduleExport.Schedule._toExpDate | tvDate}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-body">
+        <table class="table table-striped table-bordered table-condensed table-hover">
+            <thead>
+                <tr>
+                    <th>sch id</th>
+                    <th>station</th>
+                    <th>w/c</th>
+                    <th>start</th>
+                    <th>end</th>
+                    <th>days</th>
+                    <th>dur</th>
+                    <th>title</th>
+                    <th>day part</th>
+                    <th class="text-right">rate</th>
+                    <th>avail</th>
+                    <th class="text-right">free</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!--<tr ng-repeat="c in mediawiseContent.BmdScheduleExport.Schedule.Market[0].C">
+                --><tr ng-repeat="c in currentMarket.C">
+                    <td>{{c._cid}}</td>
+                    <td>{{c._s | tvBroadcastSignal}}</td>
+                    <td>{{c._w | tvDate}}</td>
+                    <td>{{c._f | tvTime}}</td>
+                    <td>{{c._t | tvTime}}</td>
+                    <td>{{c._m | tvDays}}</td>
+                    <td>{{c._l}}</td>
+                    <td>{{c._p}}</td>
+                    <td>{{c._did}}</td>
+                    <td class="text-right">{{c._r}}</td>
+                    <td>{{c._a}}</td>
+                    <td class="text-right">{{c._ft}}</td>
+                </tr>
+            </tbody>
+        </table>
+            <!--<p ng-repeat="c in mediawiseContent.BmdScheduleExport.Schedule.Market.C">
+            </p>-->
+</div>
+</div>
